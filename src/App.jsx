@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage.jsx';
-import AssetList from './components/Assets/AssetList';
 import Header from './components/Header/Header';
 import RegisterPage from './pages/RegisterPage.jsx';
+import AssetListPage from './pages/AssetListPage.jsx';
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/assets" element={<AssetList />} />
+        <Route path="/assets" element={<AssetListPage />} />
         <Route path="/" element={<h2>Bem-vindo ao Gerenciador de Ativos!</h2>} />
       </Routes>
     </div>
