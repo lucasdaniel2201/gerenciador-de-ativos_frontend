@@ -20,10 +20,7 @@ function Register() {
         password,
       });
       setMessage(response.data.message);
-      // Opcional: Armazenar token ou redirecionar
-      // localStorage.setItem('token', response.data.token);
-      // localStorage.setItem('user', JSON.stringify(response.data.user));
-      navigate('/login'); // Redireciona para a tela de login após o registro
+      navigate('/login'); 
     } catch (error) {
       console.error('Erro no registro:', error.response?.data || error.message);
       setMessage(error.response?.data?.message || 'Erro ao registrar. Tente novamente.');

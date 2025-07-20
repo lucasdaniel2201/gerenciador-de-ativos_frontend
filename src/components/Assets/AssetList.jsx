@@ -59,14 +59,25 @@ function AssetList() {
       console.error('Erro ao excluir asset:', error);
     }
   };
+  const handleRegister = () => {
+    navigate('/assetsregister')
+  }
 
 
   return (
     <div style={{ maxWidth: '900px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2>Meus Ativos</h2>
-        <button onClick={handleLogout} style={{ padding: '8px 15px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Sair</button>
+    
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <button onClick={handleLogout} style={{ padding: '8px 15px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+          Sair
+        </button>
+        <button onClick={handleRegister} style={{ padding: '8px 15px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+           Novo Ativo
+        </button>
       </div>
+    </div>
 
       {message && <p style={{ color: 'red' }}>{message}</p>}
 
@@ -92,8 +103,8 @@ function AssetList() {
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{asset.condition}</td>
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>
                   {/* Botões de Editar e Excluir virão aqui */}
-                  <button style={{ marginRight: '5px' }}>Editar</button>
-                  <button onClick={() => handleDelete(asset.id)}>Excluir</button>
+                  <button style={{padding: '10px ', backgroundColor: '#ffd310ff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Editar</button>
+                  <button onClick={() => handleDelete(asset.id)} style={{padding: '10px', backgroundColor: '#bb0000ff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Excluir</button>
                   {console.log(asset.id)}
                 </td>
               </tr>
