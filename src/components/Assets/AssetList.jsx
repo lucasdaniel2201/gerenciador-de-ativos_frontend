@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import removeAsset from '../../services/assetsService.jsx';
 
 function AssetList() {
   const [assets, setAssets] = useState([]);
@@ -22,6 +23,7 @@ function AssetList() {
           },
         });
         setAssets(response.data);
+        console.log(response.data);
         setMessage('');
       } catch (error) {
         console.error('Erro ao buscar ativos:', error.response?.data || error.message);
@@ -43,6 +45,21 @@ function AssetList() {
     localStorage.removeItem('user');
     navigate('/login');
   };
+
+  const handleDelete = async (assetId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login'); // Redireciona para login se não houver token
+      return;
+    }
+    try {
+      await removeAsset(assetId);
+      setAssets(prevAssets => prevAssets.filter(asset => asset.id !== assetId));
+    } catch (error) {
+      console.error('Erro ao excluir asset:', error);
+    }
+  };
+
 
   return (
     <div style={{ maxWidth: '900px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
@@ -67,7 +84,7 @@ function AssetList() {
             </tr>
           </thead>
           <tbody>
-            {assets.map((asset) => (
+            {assets.map((asset, idx) => (
               <tr key={asset.id}>
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{asset.name}</td>
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{asset.serialNumber}</td>
@@ -76,7 +93,8 @@ function AssetList() {
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>
                   {/* Botões de Editar e Excluir virão aqui */}
                   <button style={{ marginRight: '5px' }}>Editar</button>
-                  <button>Excluir</button>
+                  <button onClick={() => handleDelete(asset.id)}>Excluir</button>
+                  {console.log(asset.id)}
                 </td>
               </tr>
             ))}
