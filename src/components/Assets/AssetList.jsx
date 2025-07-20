@@ -62,6 +62,9 @@ function AssetList() {
   const handleRegister = () => {
     navigate('/assetsregister')
   }
+  const handleUpdate = (assetId) => {
+    navigate(`/assets/${assetId}`);
+  };
 
 
   return (
@@ -101,9 +104,9 @@ function AssetList() {
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{asset.serialNumber}</td>
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{asset.responsible}</td>
                 <td style={{ padding: '10px', border: '1px solid #ddd' }}>{asset.condition}</td>
-                <td style={{ padding: '10px', border: '1px solid #ddd' }}>
+                <td style={{ padding: '10px', border: '1px solid #ddd', textAlign: 'center' }}>
                   {/* Botões de Editar e Excluir virão aqui */}
-                  <button style={{padding: '10px ', backgroundColor: '#ffd310ff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Editar</button>
+                  <button onClick={() => handleUpdate(asset.id)} style={{padding: '10px ', backgroundColor: '#ffd310ff', marginRight: '10px', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Editar</button>
                   <button onClick={() => handleDelete(asset.id)} style={{padding: '10px', backgroundColor: '#bb0000ff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Excluir</button>
                   {console.log(asset.id)}
                 </td>

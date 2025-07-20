@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -18,7 +19,7 @@ function Header() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUsername('');
-    useNavigate('/login'); 
+    navigate('/login');
   };
 
   return (
@@ -29,7 +30,7 @@ function Header() {
           alt='Profile'
           width='30px'
         />
-        {username ? <p>Olá, {username}</p> : <p>Olá</p>}
+        {username ? <p>Olá, {username}</p> : <p>Olá, usuário</p>}
       </div>
       <div className={styles.navDiv}>
         {!username ? (
@@ -38,9 +39,11 @@ function Header() {
             <Link to="/login" className={styles.navItems}>Login</Link>
           </>
         ) : (
+          <>
           <button onClick={handleLogout} className={styles.navItems}>Sair</button>
+          <Link to="/assets" className={styles.navItems}>Ativos</Link>
+          </>
         )}
-        <Link to="/assets" className={styles.navItems}>Ativos</Link>
       </div>
     </nav>
   );
