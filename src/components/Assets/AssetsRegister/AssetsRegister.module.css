@@ -104,3 +104,25 @@
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
 }
+
+.backButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+    background-color: #c82333;
+}
+
+.backButton:active {
+    transform: translateY(1px);
+}

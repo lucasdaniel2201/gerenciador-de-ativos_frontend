@@ -118,6 +118,9 @@ function AssetsRegister() {
         <button type="submit" className={styles.submitButton}>
           Registrar
         </button>
+        <button type="button" className={styles.backButton} onClick={() => navigate('/assets')}> Voltar </button>
+
+        
       </form>
 
       {message && (
