@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import styles from './Login.module.css';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -21,6 +22,7 @@ function Login() {
       // Armazena o token e as informações do usuário no localStorage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
+      window.dispatchEvent(new CustomEvent('authStateChanged'));
       navigate('/assets'); // Redireciona para a tela de ativos após o login
     } catch (error) {
       console.error('Erro no login:', error.response?.data || error.message);
@@ -29,34 +31,38 @@ function Login() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="username" style={{ display: 'block', marginBottom: '5px' }}>Usuário:</label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Login</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.inputGroup}>
+          <label htmlFor="username" className={styles.label}>Usuário:</label>
           <input
             type="text"
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>Senha:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="password" className={styles.label}>Senha:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
-        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Entrar</button>
+        <button type="submit" className={styles.submitButton}>Entrar</button>
       </form>
-      {message && <p style={{ marginTop: '20px', color: message.includes('sucesso') ? 'green' : 'red' }}>{message}</p>}
+      {message && (
+        <p className={`${styles.message} ${message.includes('sucesso') ? styles.success : styles.error}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Para redirecionar após o registro
+import { useNavigate } from 'react-router-dom';
+import styles from './Register.module.css';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -28,45 +29,49 @@ function Register() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h2>Registrar</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="username" style={{ display: 'block', marginBottom: '5px' }}>Usuário:</label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Registrar</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.inputGroup}>
+          <label htmlFor="username" className={styles.label}>Usuário:</label>
           <input
             type="text"
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: '5px' }}>Email:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="email" className={styles.label}>Email:</label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>Senha:</label>
+        <div className={styles.inputGroup}>
+          <label htmlFor="password" className={styles.label}>Senha:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
-        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Registrar</button>
+        <button type="submit" className={styles.submitButton}>Registrar</button>
       </form>
-      {message && <p style={{ marginTop: '20px', color: message.includes('sucesso') ? 'green' : 'red' }}>{message}</p>}
+      {message && (
+        <p className={`${styles.message} ${message.includes('sucesso') ? styles.success : styles.error}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }

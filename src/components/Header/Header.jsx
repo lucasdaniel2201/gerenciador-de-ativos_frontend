@@ -7,18 +7,52 @@ function Header() {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const updateUserFromStorage = () => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUsername(parsedUser.username);
+    } else {
+      setUsername('');
     }
+  };
+
+  useEffect(() => {
+    // Atualizar na montagem do componente
+    updateUserFromStorage();
+
+    // Listener para mudanças no localStorage
+    const handleStorageChange = (e) => {
+      if (e.key === 'user' || e.key === 'token') {
+        updateUserFromStorage();
+      }
+    };
+
+    // Adicionar listener para mudanças entre abas
+    window.addEventListener('storage', handleStorageChange);
+
+    // Listener customizado para mudanças na mesma aba
+    const handleAuthChange = () => {
+      updateUserFromStorage();
+    };
+
+    window.addEventListener('authStateChanged', handleAuthChange);
+
+    // Cleanup dos listeners
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('authStateChanged', handleAuthChange);
+    };
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUsername('');
+
+    // Disparar evento customizado para atualizar outros componentes se necessário
+    window.dispatchEvent(new CustomEvent('authStateChanged'));
+
     navigate('/login');
   };
 
@@ -40,8 +74,8 @@ function Header() {
           </>
         ) : (
           <>
-          <button onClick={handleLogout} className={styles.navItems}>Sair</button>
-          <Link to="/assets" className={styles.navItems}>Ativos</Link>
+            <button onClick={handleLogout} className={styles.navItems}>Sair</button>
+            <Link to="/assets" className={styles.navItems}>Ativos</Link>
           </>
         )}
       </div>
