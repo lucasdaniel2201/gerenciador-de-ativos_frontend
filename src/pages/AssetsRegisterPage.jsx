@@ -1,4 +1,4 @@
-import AssetsRegister from "../components/Assets/AssetsRegister"
+import AssetsRegister from "../components/Assets/AssetsRegister/AssetsRegister"
 
 
 function AssetsRegisterPage() {

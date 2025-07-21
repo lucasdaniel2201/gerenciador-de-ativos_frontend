@@ -1,58 +1,14 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext'; // Ajuste o caminho conforme sua estrutura
+import styles from './Header.module.css';
 
 function Header() {
-  const [username, setUsername] = useState('');
   const navigate = useNavigate();
-
-  const updateUserFromStorage = () => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUsername(parsedUser.username);
-    } else {
-      setUsername('');
-    }
-  };
-
-  useEffect(() => {
-    // Atualizar na montagem do componente
-    updateUserFromStorage();
-
-    // Listener para mudanças no localStorage
-    const handleStorageChange = (e) => {
-      if (e.key === 'user' || e.key === 'token') {
-        updateUserFromStorage();
-      }
-    };
-
-    // Adicionar listener para mudanças entre abas
-    window.addEventListener('storage', handleStorageChange);
-
-    // Listener customizado para mudanças na mesma aba
-    const handleAuthChange = () => {
-      updateUserFromStorage();
-    };
-
-    window.addEventListener('authStateChanged', handleAuthChange);
-
-    // Cleanup dos listeners
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('authStateChanged', handleAuthChange);
-    };
-  }, []);
+  const { user, logout, isAuthenticated } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setUsername('');
-
-    // Disparar evento customizado para atualizar outros componentes se necessário
-    window.dispatchEvent(new CustomEvent('authStateChanged'));
-
+    logout();
     navigate('/login');
   };
 
@@ -64,18 +20,22 @@ function Header() {
           alt='Profile'
           width='30px'
         />
-        {username ? <p>Olá, {username}</p> : <p>Olá, usuário</p>}
+        {user?.username ? (
+          <p>Olá, {user.username}</p>
+        ) : (
+          <p>Olá, usuário</p>
+        )}
       </div>
       <div className={styles.navDiv}>
-        {!username ? (
+        {!isAuthenticated() ? (
           <>
             <Link to="/register" className={styles.navItems}>Registrar</Link>
             <Link to="/login" className={styles.navItems}>Login</Link>
           </>
         ) : (
           <>
-            <button onClick={handleLogout} className={styles.navItems}>Sair</button>
             <Link to="/assets" className={styles.navItems}>Ativos</Link>
+            <button onClick={handleLogout} className={styles.navLogout}>Sair</button>
           </>
         )}
       </div>

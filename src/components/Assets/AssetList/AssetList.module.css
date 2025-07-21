@@ -1,0 +1,98 @@
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 10px;
+}
+
+.newAssetButton {
+    padding: 8px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.newAssetButton:hover {
+    background-color: #218838;
+}
+
+.errorMessage {
+    color: red;
+}
+
+.noAssetsMessage {
+    color: #666;
+    font-style: italic;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tableHeader {
+    background-color: #f2f2f2;
+}
+
+.tableHeaderCell {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tableCell {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.actionsCell {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.editButton {
+    padding: 6px 12px;
+    background-color: #ffd310;
+    margin-right: 10px;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.editButton:hover {
+    background-color: #e6be0f;
+}
+
+.deleteButton {
+    padding: 6px 12px;
+    background-color: #bb0000;
+    color: #FFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    background-color: #990000;
+}

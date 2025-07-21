@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext'
 import styles from './Login.module.css';
 
 function Login() {
@@ -8,6 +9,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,11 +20,12 @@ function Login() {
         username,
         password,
       });
+      
       setMessage(response.data.message);
-      // Armazena o token e as informações do usuário no localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      window.dispatchEvent(new CustomEvent('authStateChanged'));
+      
+      // Usar o contexto para fazer login
+      login(response.data.user, response.data.token);
+      
       navigate('/assets'); // Redireciona para a tela de ativos após o login
     } catch (error) {
       console.error('Erro no login:', error.response?.data || error.message);

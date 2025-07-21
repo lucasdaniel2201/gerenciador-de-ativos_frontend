@@ -1,4 +1,4 @@
-import AssetList from "../components/Assets/AssetList";
+import AssetList from "../components/Assets/AssetList/AssetList";
 
 function AssetListPage() {
     return (

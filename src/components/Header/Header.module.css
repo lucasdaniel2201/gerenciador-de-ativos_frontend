@@ -29,3 +29,15 @@
     padding: 10px;
     background-color: cornflowerblue;
 }
+.navLogout {
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #FFF;
+    margin: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(241, 0, 0);
+    cursor: pointer;
+}

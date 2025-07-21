@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import styles from './AssetsRegister.module.css';
 
 function AssetsRegister() {
   const [name, setName] = useState('');
@@ -51,78 +52,80 @@ function AssetsRegister() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h2>Registrar Ativo</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="name" style={{ display: 'block', marginBottom: '5px' }}>Nome:</label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Registrar Ativo</h2>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="name" className={styles.label}>Nome:</label>
           <input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="serialNumber" style={{ display: 'block', marginBottom: '5px' }}>Número de Série:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="serialNumber" className={styles.label}>Número de Série:</label>
           <input
             type="text"
             id="serialNumber"
             value={serialNumber}
             onChange={(e) => setSerialNumber(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="responsible" style={{ display: 'block', marginBottom: '5px' }}>Responsável:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="responsible" className={styles.label}>Responsável:</label>
           <input
             type="text"
             id="responsible"
             value={responsible}
             onChange={(e) => setResponsible(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="condition" style={{ display: 'block', marginBottom: '5px' }}>Condição:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="condition" className={styles.label}>Condição:</label>
           <input
             type="text"
             id="condition"
             value={condition}
             onChange={(e) => setCondition(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="notes" style={{ display: 'block', marginBottom: '5px' }}>Observações:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="notes" className={styles.label}>Observações:</label>
           <textarea
             id="notes"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             rows={3}
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px', resize: 'vertical' }}
+            className={styles.textarea}
           />
         </div>
 
-        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Registrar</button>
+        <button type="submit" className={styles.submitButton}>
+          Registrar
+        </button>
       </form>
 
       {message && (
-        <p style={{ marginTop: '20px', color: message.includes('sucesso') ? 'green' : 'red' }}>
+        <div className={`${styles.message} ${message.includes('sucesso') ? styles.messageSuccess : styles.messageError}`}>
           {message}
-        </p>
+        </div>
       )}
     </div>
   );
 }
-
-export default AssetsRegister;
+  export default AssetsRegister;

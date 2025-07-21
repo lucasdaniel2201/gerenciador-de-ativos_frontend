@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams,useNavigate } from 'react-router-dom';
+import styles from './AssetUpdate.module.css';
 
 function AssetsUpdate() {
   const { id } = useParams();
@@ -107,11 +108,12 @@ function AssetsUpdate() {
   }
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h2>Atualizar Ativo</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="name" style={{ display: 'block', marginBottom: '5px' }}>Nome:</label>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Atualizar Ativo</h2>
+
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="name" className={styles.label}>Nome:</label>
           <input
             type="text"
             id="name"
@@ -119,12 +121,12 @@ function AssetsUpdate() {
             value={formData.name}
             onChange={handleInputChange}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="serialNumber" style={{ display: 'block', marginBottom: '5px' }}>Número de Série:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="serialNumber" className={styles.label}>Número de Série:</label>
           <input
             type="text"
             id="serialNumber"
@@ -132,12 +134,12 @@ function AssetsUpdate() {
             value={formData.serialNumber}
             onChange={handleInputChange}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="responsible" style={{ display: 'block', marginBottom: '5px' }}>Responsável:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="responsible" className={styles.label}>Responsável:</label>
           <input
             type="text"
             id="responsible"
@@ -145,12 +147,12 @@ function AssetsUpdate() {
             value={formData.responsible}
             onChange={handleInputChange}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="condition" style={{ display: 'block', marginBottom: '5px' }}>Condição:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="condition" className={styles.label}>Condição:</label>
           <input
             type="text"
             id="condition"
@@ -158,56 +160,48 @@ function AssetsUpdate() {
             value={formData.condition}
             onChange={handleInputChange}
             required
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+            className={styles.input}
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="notes" style={{ display: 'block', marginBottom: '5px' }}>Observações:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="notes" className={styles.label}>Observações:</label>
           <textarea
             id="notes"
             name="notes"
             value={formData.notes}
             onChange={handleInputChange}
             rows={3}
-            style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px', resize: 'vertical' }}
+            className={styles.textarea}
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={saving}
-          style={{
-            width: '100%',
-            padding: '10px',
-            backgroundColor: saving ? '#6c757d' : '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: saving ? 'not-allowed' : 'pointer'
-          }}
-        >
-          {saving ? 'Atualizando...' : 'Atualizar'}
-        </button>
-        <button type='button' onClick={() => navigate('/assets')} style={{
-          width: '100%',
-          marginTop: '10px',
-          padding: '10px',
-          backgroundColor: saving ? '#6c757d' : '#ff0000ff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: saving ? 'not-allowed' : 'pointer'
-        }}>voltar</button>
+        <div className={styles.buttonGroup}>
+          <button
+            type="submit"
+            disabled={saving}
+            className={styles.updateButton}
+          >
+            {saving ? 'Atualizando...' : 'Atualizar'}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => navigate('/assets')}
+            disabled={saving}
+            className={styles.backButton}
+          >
+            Voltar
+          </button>
+        </div>
       </form>
 
       {message && (
-        <p style={{ marginTop: '20px', color: message.includes('sucesso') ? 'green' : 'red' }}>
+        <div className={`${styles.message} ${message.includes('sucesso') ? styles.messageSuccess : styles.messageError}`}>
           {message}
-        </p>
+        </div>
       )}
     </div>
   );
 }
-
-export default AssetsUpdate;
+  export default AssetsUpdate;
