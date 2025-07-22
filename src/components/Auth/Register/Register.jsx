@@ -7,6 +7,7 @@ function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPremium, setIsPremium] = useState(false); // Estado para plano premium
   const [message, setMessage] = useState('');
   const navigate = useNavigate(); // Hook para navegação
 
@@ -19,6 +20,7 @@ function Register() {
         username,
         email,
         password,
+        isPremium
       });
       setMessage(response.data.message);
       navigate('/login'); 
