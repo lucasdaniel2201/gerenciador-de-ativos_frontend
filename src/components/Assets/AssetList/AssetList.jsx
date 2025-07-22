@@ -74,9 +74,7 @@ function AssetList() {
   // Lógica de filtro: filtra os ativos com base no termo de pesquisa
   const filteredAssets = assets.filter(asset =>
     asset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    asset.serialNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    asset.responsible.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    asset.condition.toLowerCase().includes(searchTerm.toLowerCase())
+    asset.serialNumber.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
