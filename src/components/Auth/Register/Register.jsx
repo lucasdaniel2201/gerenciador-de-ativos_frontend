@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
@@ -7,7 +7,7 @@ function Register() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isPremium, setIsPremium] = useState(false); // Estado para plano premium
+  const [isPremium, setIsPremium] = useState(null); // Estado para plano premium
   const [message, setMessage] = useState('');
   const navigate = useNavigate(); // Hook para navegação
 
@@ -67,7 +67,37 @@ function Register() {
             className={styles.input}
           />
         </div>
-        <button type="submit" className={styles.submitButton}>Registrar</button>
+        <div>
+          <div className={styles.planContainer}>
+          <input
+            type="radio"
+            id="isPremium"
+            name="plan"
+            checked={isPremium === true}
+            onChange={() => setIsPremium(true)}
+            required
+            className={styles.planRadio}
+          />
+          <label htmlFor="isPremium" className={styles.plan}>Premium - Max. 150 ativos</label>
+          </div>
+          <div className={styles.planContainer}>
+          <input
+            type="radio"
+            name="plan"
+            id="isNotPremium"
+            checked={isPremium === false}
+            onChange={() => setIsPremium(false)}
+            required
+            className={styles.planRadio}
+          />
+          <label htmlFor="isNotPremium" className={styles.plan}>Gratuito - Max. 10 ativos</label> 
+          </div>
+        </div>
+        {!isPremium ? (
+          <button type="submit" className={styles.submitButton}>Registrar</button>
+        ): (
+          <button type="button" onClick={() => navigate('/login')} className={styles.submitButton}>Ir para pagamento</button>
+        )}
       </form>
       {message && (
         <p className={`${styles.message} ${message.includes('sucesso') ? styles.success : styles.error}`}>

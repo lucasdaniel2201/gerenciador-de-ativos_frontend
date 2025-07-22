@@ -88,3 +88,15 @@
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
 }
+.planContainer {
+    display: flex;
+    height: 2.5rem;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 0.3rem;
+}
+.planRadio {
+    margin-left: 10px;
+    margin-right: 10px;
+}
