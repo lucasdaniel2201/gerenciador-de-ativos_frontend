@@ -1,44 +1,53 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import removeAsset from '../../../services/assetsService'; // Assumindo que este serviço está correto
-import styles from './AssetList.module.css';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import removeAsset from "../../../services/assetsService";
+import styles from "./AssetList.module.css";
+import CancelSubscriptionButton from "../../SubscriptionCancel/SubscriptionCancel";
+import { useAuth } from "../../../context/AuthContext";
 
 function AssetList() {
   const [assets, setAssets] = useState([]);
-  const [message, setMessage] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [message, setMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true); // Adicionado estado de carregamento
   const navigate = useNavigate();
+  const { user, subscription, loading } = useAuth();
 
   useEffect(() => {
     const fetchAssets = async () => {
       setIsLoading(true); // Inicia o carregamento
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        navigate('/login');
-        setIsLoading(false); 
+        navigate("/login");
+        setIsLoading(false);
         return;
       }
 
       try {
-        const response = await axios.get('http://localhost:3000/api/assets', {
+        const response = await axios.get("http://localhost:3000/api/assets", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setAssets(response.data);
-        setMessage('');
+        setMessage("");
       } catch (error) {
-        console.error('Erro ao buscar ativos:', error.response?.data || error.message);
-        setMessage(error.response?.data?.message || 'Erro ao carregar ativos. Faça login novamente.');
+        console.error(
+          "Erro ao buscar ativos:",
+          error.response?.data || error.message
+        );
+        setMessage(
+          error.response?.data?.message ||
+            "Erro ao carregar ativos. Faça login novamente."
+        );
         if (error.response?.status === 401) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          navigate('/login');
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate("/login");
         }
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
 
@@ -46,25 +55,27 @@ function AssetList() {
   }, [navigate]);
 
   const handleDelete = async (assetId) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     try {
       await removeAsset(assetId);
-      setAssets(prevAssets => prevAssets.filter(asset => asset.id !== assetId));
-      setMessage('Ativo excluído com sucesso!'); // Feedback de sucesso
-      setTimeout(() => setMessage(''), 3000); // Limpa a mensagem após 3 segundos
+      setAssets((prevAssets) =>
+        prevAssets.filter((asset) => asset.id !== assetId)
+      );
+      setMessage("Ativo excluído com sucesso!"); // Feedback de sucesso
+      setTimeout(() => setMessage(""), 3000); // Limpa a mensagem após 3 segundos
     } catch (error) {
-      console.error('Erro ao excluir asset:', error);
-      setMessage('Erro ao excluir ativo. Tente novamente.'); // Feedback de erro
-      setTimeout(() => setMessage(''), 5000); // Limpa a mensagem após 5 segundos
+      console.error("Erro ao excluir asset:", error);
+      setMessage("Erro ao excluir ativo. Tente novamente."); // Feedback de erro
+      setTimeout(() => setMessage(""), 5000); // Limpa a mensagem após 5 segundos
     }
   };
 
   const handleRegister = () => {
-    navigate('/assetsregister');
+    navigate("/assetsregister");
   };
 
   const handleUpdate = (assetId) => {
@@ -72,9 +83,10 @@ function AssetList() {
   };
 
   // Lógica de filtro: filtra os ativos com base no termo de pesquisa
-  const filteredAssets = assets.filter(asset =>
-    asset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    asset.serialNumber.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredAssets = assets.filter(
+    (asset) =>
+      asset.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      asset.serialNumber.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -89,7 +101,17 @@ function AssetList() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
+          {subscription && subscription?.status === "active" ? (
+            <div>
+              <p>Assinatura ativa</p>
+              <CancelSubscriptionButton
+                subscriptionId={subscription.id}
+                userId={user.id}
+              />
+            </div>
+          ) : (
+            <p>Nenhuma assinatura ativa encontrada</p>
+          )}
           <button onClick={handleRegister} className={styles.newAssetButton}>
             Novo Ativo
           </button>
@@ -100,12 +122,16 @@ function AssetList() {
         <p>Carregando ativos...</p>
       ) : (
         <>
-          {message && <p className={styles.message}>{message}</p>} 
+          {message && <p className={styles.message}>{message}</p>}
 
-          {filteredAssets.length === 0 && !message && searchTerm === '' ? (
-            <p className={styles.noAssetsMessage}>Nenhum ativo encontrado. Crie um novo ativo!</p>
-          ) : filteredAssets.length === 0 && !message && searchTerm !== '' ? (
-            <p className={styles.noAssetsMessage}>Nenhum ativo encontrado para a pesquisa "{searchTerm}".</p>
+          {filteredAssets.length === 0 && !message && searchTerm === "" ? (
+            <p className={styles.noAssetsMessage}>
+              Nenhum ativo encontrado. Crie um novo ativo!
+            </p>
+          ) : filteredAssets.length === 0 && !message && searchTerm !== "" ? (
+            <p className={styles.noAssetsMessage}>
+              Nenhum ativo encontrado para a pesquisa "{searchTerm}".
+            </p>
           ) : (
             <table className={styles.table}>
               <thead>

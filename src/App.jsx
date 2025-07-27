@@ -6,6 +6,7 @@ import AssetListPage from './pages/AssetListPage.jsx';
 import AssetsRegisterPage from './pages/AssetsRegisterPage.jsx';
 import AssetsUpdate from './components/Assets/AssetUpdate/AssetUpdate.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import SuccessPage from './pages/SuccessPage.jsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/assetsregister" element={<AssetsRegisterPage />} />
             <Route path='/assets/:id' element={<AssetsUpdate />} />
             <Route path="/" element={<h2>Bem-vindo ao Gerenciador de Ativos!</h2>} />
+            <Route path="/success" element={<SuccessPage />} />
           </Routes>
         </Router>
       </AuthProvider>
