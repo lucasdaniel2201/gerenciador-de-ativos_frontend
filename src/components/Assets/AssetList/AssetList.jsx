@@ -95,12 +95,6 @@ function AssetList() {
         <h2>Meus Ativos</h2>
 
         <div className={styles.buttonGroup}>
-          <input
-            type="search"
-            placeholder="Pesquisar"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
           {subscription && subscription?.status === "active" ? (
             <div>
               <p>Assinatura ativa</p>
@@ -112,6 +106,13 @@ function AssetList() {
           ) : (
             <p>Nenhuma assinatura ativa encontrada</p>
           )}
+          <input
+            type="search"
+            placeholder="Pesquisar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
+          />
           <button onClick={handleRegister} className={styles.newAssetButton}>
             Novo Ativo
           </button>
